@@ -1,10 +1,10 @@
 import { sounds, defaultPresets } from "./soundData.js";
+import { SoundManager } from "./soundManager.js";
 
 class AmbientMixer {
   // Initialize dependancies and default state
   constructor() {
-    console.log("Initializing state... ✅");
-    this.soundManager = null;
+    this.soundManager = new SoundManager();
     this.ui = null;
     this.ui = null;
     this.timer = null;
@@ -14,11 +14,24 @@ class AmbientMixer {
 
   init() {
     try {
-      console.log("Initializing app... ☑️");
+      // Load all sound files
+      this.loadAllSounds();
+      this.soundManager.loadSound("rain", "audio/rain.mp3");
       this.isInitialized = true;
     } catch (error) {
       console.log("❌ Failed to initialize app:", error);
     }
+  }
+
+  // Load all sound files
+  loadAllSounds() {
+    sounds.forEach((sound) => {
+      const audioURL = `audio/${sound}`;
+      const success = this.soundManager.loadSound(sound.id, audioURL);
+      if (!success) {
+        console.log(`Cound not load sound: ${sound.name} from ${audioURL}`);
+      }
+    });
   }
 }
 
