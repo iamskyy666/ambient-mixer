@@ -60,4 +60,24 @@ export class SoundManager {
     console.log(`Volume for ${soundId}: ${volume}`);
     return true;
   }
+
+  // Play all sounds
+  playAll() {
+    for (const [soundId, audio] of this.audioElements) {
+      if (audio.paused) {
+        audio.play();
+      }
+    }
+    this.isPlaying = true;
+  }
+
+  // Pause all sounds
+  pauseAll() {
+    for (const [soundId, audio] of this.audioElements) {
+      if (!audio.paused) {
+        audio.pause();
+      }
+    }
+    this.isPlaying = false;
+  }
 }
