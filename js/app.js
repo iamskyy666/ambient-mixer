@@ -52,6 +52,23 @@ class AmbientMixer {
         await this.toggleSound(soundId);
       }
 
+      // Check if delete-btn was clicked
+      // if (evt.target.closest(".delete-preset")) {
+      //   evt.stopPropagation();
+      //   const presetId = evt.target.closest(".delete-preset").dataset.preset;
+      //   this.deleteCustomPreset(presetId);
+
+      //   return;
+      // }
+      if (evt.target.closest(".delete-preset")) {
+        evt.stopPropagation();
+
+        const presetId = evt.target.closest(".delete-preset").dataset.preset;
+        this.deleteCustomPreset(presetId);
+        return;
+      }
+
+
       // Check if a default preset-btn. was clicked
       if (evt.target.closest(".preset-btn")) {
         const presetKey = evt.target.closest(".preset-btn").dataset.preset;
@@ -62,7 +79,7 @@ class AmbientMixer {
       if (evt.target.closest(".custom-preset-btn")) {
         const presetKey =
           evt.target.closest(".custom-preset-btn").dataset.preset;
-        await this.loadPreset(presetKey, true);
+        this.loadPreset(presetKey, true);
       }
     });
 
@@ -172,7 +189,7 @@ class AmbientMixer {
       // sound is off, we wanna turn it on
       this.soundManager.setVolume(soundId, 50);
       await this.soundManager.playSound(soundId);
-      this.currentSoundState[soundId] = 0;
+      //this.currentSoundState[soundId] = 0;
       this.ui.updateSoundPlayButton(soundId, true);
     } else {
       // sound is on, we wanna shut it off
@@ -421,6 +438,21 @@ class AmbientMixer {
     const customPresets = this.presetManager.customPresets;
     for (const [presetId, preset] of Object.entries(customPresets)) {
       this.ui.addCustomPreset(preset.name, presetId);
+    }
+  }
+
+  // Delete custom-preset
+  // deleteCustomPreset(presetId) {
+  //   if (this.presetManager.deletePreset(presetId)) {
+  //     this.ui.removeCustomPreset(presetId);
+  //     console.log(`Preset ${presetId} deleted! ✅`);
+  //   }
+  // }
+
+  deleteCustomPreset(presetId) {
+    if (this.presetManager.deletePreset(presetId)) {
+      this.ui.removeCustomPreset(presetId);
+      this.ui.setActivePreset(null);
     }
   }
 }
