@@ -28,6 +28,9 @@ class AmbientMixer {
       // Load all sound files
       this.loadAllSounds();
 
+      // Load custom-presets in UI
+      this.loadCustomPresetUI();
+
       // Initialize sound states after loading sounds
       sounds.forEach((sound) => {
         this.currentSoundState[sound.id] = 0;
@@ -382,8 +385,20 @@ class AmbientMixer {
       name,
       this.currentSoundState,
     );
+
+    // Add custom-preset btn to UI
+    this.ui.addCustomPreset(name, presetId);
+
     this.ui.hideModal();
     console.log(`✅ Preset "${name}" saved successfully with ID: ${presetId}!`);
+  }
+
+  // Load custom preset btns in UI
+  loadCustomPresetUI() {
+    const customPresets = this.presetManager.customPresets;
+    for (const [presetId, preset] of Object.entries(customPresets)) {
+      this.ui.addCustomPreset(preset.name, presetId);
+    }
   }
 }
 
