@@ -195,4 +195,23 @@ export class UI {
     const button = this.createCustomPresetBtn(name, presetId);
     this.customPresetsContainer.appendChild(button);
   }
+
+  // Highlight active-preset
+  setActivePreset(presetKey) {
+    // remove active class from akk btns
+    document
+      .querySelectorAll(".preset-btn, .custom-preset-btn")
+      .forEach((btn) => {
+        btn.classList.remove("preset-active");
+      });
+    // add active class to selected presets
+    const activeBtn = document.querySelector(
+      `.preset-btn[data-preset="${presetKey}"],
+      .custom-preset-btn[data-preset="${presetKey}"]`,
+    );
+
+    if (activeBtn) {
+      activeBtn.classList.add("preset-active");
+    }
+  }
 }
